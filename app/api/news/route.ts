@@ -20,12 +20,12 @@ interface NewsItem {
 const NEWS_SOURCES = {
   'World News': [
     {
-      url: 'http://feeds.bbci.co.uk/news/world/rss.xml',
+      url: 'https://feeds.bbci.co.uk/news/world/rss.xml',
       source: 'BBC World'
     },
     {
-      url: 'http://feeds.reuters.com/Reuters/worldNews',
-      source: 'Reuters World'
+      url: 'https://www.aljazeera.com/xml/rss/all.xml',
+      source: 'Al Jazeera'
     }
   ],
   'US News': [

@@ -7,6 +7,10 @@ interface WeatherData {
   temperature: number;
   condition: string;
   location: string;
+  humidity: number;
+  conditions: string;
+  aqi?: number;
+  aqiLevel?: string;
 }
 
 export default function WeatherWidget() {
