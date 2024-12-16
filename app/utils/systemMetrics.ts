@@ -6,7 +6,7 @@ export interface SystemMetrics {
   uptime: number;         // in seconds
 }
 
-let startTime = Date.now();
+const startTime = Date.now();
 
 export function getSystemMetrics(): SystemMetrics {
   // Simulate memory usage between 30-80%

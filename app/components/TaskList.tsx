@@ -90,12 +90,11 @@ export default function TaskList() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    const lastAtIndex = newTask.lastIndexOf('@');
     const hasSelectedPrompt = selectedPrompt && newTask.includes(`[${selectedPrompt.name}]`);
     
     // If we have a selected prompt, insert text after it
     if (selectedPrompt && hasSelectedPrompt) {
-      const [before, after] = newTask.split(`[${selectedPrompt.name}]`);
+      const [before] = newTask.split(`[${selectedPrompt.name}]`);
       setNewTask(`${before}[${selectedPrompt.name}]${value}`);
     } else {
       setNewTask(value);
@@ -125,30 +124,6 @@ export default function TaskList() {
     setSelectedPrompt(prompt);
     setShowSuggestions(false);
     setNewTask(`${beforeAt}[${prompt.name}] `); // Add space after prompt
-  };
-
-  const getInputWithHighlight = () => {
-    if (!selectedPrompt) return newTask;
-    
-    const parts = newTask.split(`[${selectedPrompt.name}]`);
-    return (
-      <>
-        {parts[0]}
-        <span className="inline-flex items-center gap-1 bg-blue-500/20 text-blue-400 px-2 rounded-full text-sm">
-          @{selectedPrompt.name}
-          <button
-            onClick={() => {
-              setSelectedPrompt(null);
-              setNewTask(newTask.replace(`[${selectedPrompt.name}]`, ''));
-            }}
-            className="hover:text-blue-300"
-          >
-            ×
-          </button>
-        </span>
-        {parts[1]}
-      </>
-    );
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -190,7 +165,8 @@ export default function TaskList() {
             ? { ...t, status: 'completed', completed: true, agentResponse: data.content }
             : t
         ));
-      } catch (error) {
+      } catch (err) {
+        console.error('Failed to process task:', err);
         setTasks(prev => prev.map(t => 
           t.id === task.id 
             ? { ...t, status: 'error' }

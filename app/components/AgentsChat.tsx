@@ -15,6 +15,10 @@ interface ChatHistory {
   [agentId: string]: Message[];
 }
 
+interface ParsedMessage extends Omit<Message, 'timestamp'> {
+  timestamp: string;
+}
+
 const SLASH_COMMANDS = {
   clear: { command: '/clear', description: 'Clear chat history' },
   reset: { command: '/reset', description: 'Reset conversation' }
@@ -38,7 +42,7 @@ export default function AgentsChat() {
       const parsed = JSON.parse(savedHistory);
       // Convert string dates back to Date objects
       Object.keys(parsed).forEach(agentId => {
-        parsed[agentId] = parsed[agentId].map((msg: any) => ({
+        parsed[agentId] = parsed[agentId].map((msg: ParsedMessage) => ({
           ...msg,
           timestamp: new Date(msg.timestamp)
         }));
@@ -84,7 +88,7 @@ export default function AgentsChat() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
 

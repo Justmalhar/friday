@@ -1,15 +1,12 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { locations } from '@/app/config/locations';
-import { setCache, getCache, getLastUpdated, TTL } from '@/app/utils/cache';
+import { setCache, getCache, TTL } from '@/app/utils/cache';
 
 interface WeatherData {
-  location: string;
   temperature: number;
-  humidity: number;
-  conditions: string;
-  aqi: number;
-  aqiLevel: string;
+  condition: string;
+  location: string;
 }
 
 export default function WeatherWidget() {
@@ -19,7 +16,6 @@ export default function WeatherWidget() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
-  const [lastUpdated, setLastUpdated] = useState<string>('Never');
 
   useEffect(() => {
     const fetchAllLocations = async () => {
@@ -27,7 +23,6 @@ export default function WeatherWidget() {
         const cached = getCache<WeatherData[]>('weather', TTL.weather);
         if (cached) {
           setWeatherData(cached);
-          setLastUpdated(getLastUpdated('weather'));
           setLoading(false);
           return;
         }
@@ -39,7 +34,6 @@ export default function WeatherWidget() {
         const results = await Promise.all(promises);
         setWeatherData(results);
         setCache('weather', results);
-        setLastUpdated(new Date().toLocaleTimeString());
         setError(null);
       } catch (err) {
         console.error('Weather fetch error:', err);

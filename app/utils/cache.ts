@@ -1,6 +1,7 @@
 interface CacheItem<T> {
   data: T;
   timestamp: number;
+  ttl: number;
 }
 
 interface CacheConfig {
@@ -13,10 +14,11 @@ export const TTL: CacheConfig = {
   weather: 3 * 60 * 60 * 1000 // 3 hours
 };
 
-export function setCache<T>(key: string, data: T, ttl?: number) {
+export function setCache<T>(key: string, data: T, ttl = 3600) {
   const item: CacheItem<T> = {
     data,
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    ttl
   };
   localStorage.setItem(key, JSON.stringify(item));
 }
@@ -38,7 +40,15 @@ export function getLastUpdated(key: string): string {
   const item = localStorage.getItem(key);
   if (!item) return 'Never';
 
-  const cached: CacheItem<any> = JSON.parse(item);
+  const cached = JSON.parse(item) as CacheItem<unknown>;
   const date = new Date(cached.timestamp);
   return date.toLocaleTimeString();
+}
+
+export function parseJson<T>(jsonString: string): T | null {
+  try {
+    return JSON.parse(jsonString);
+  } catch {
+    return null;
+  }
 } 
