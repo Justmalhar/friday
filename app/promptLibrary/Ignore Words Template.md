@@ -1,0 +1,3 @@
+Never use below words or minimize the use:
+
+delve, dive, deep, (most common) tapestry, intriguing, holistic, intersection, not only ... but ... (standard inversions), dancing metaphores,Site specific: (shipping) - navigate into, sail into the future(research) - ethical considerations, area, realm, in the field of (even if it already knows the field), in the <> of (completely unecessary), in the age of, in the search of.At the end of almost every long essay prompt: Paragraph idea: Save the world, make the world better, in the future, it is essential to <>.In essence, may seem counterintuitive
